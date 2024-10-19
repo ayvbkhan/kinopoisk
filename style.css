@@ -13,3 +13,11 @@
   gap: 20px;
 }
 
+@media (max-width: 400px) {
+  .infoContainer {
+    display: block;
+  }
+  .infoContainer h3 {
+    margin-top: 15px; 
+  }
+}
