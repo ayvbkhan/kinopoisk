@@ -9,11 +9,38 @@ async function fetchData(title) {
 const searchInputElement = document.querySelector('#movie-search-input')
 const searchButtonElement= document.querySelector('#movie-search-button')
 
+const spinnerContainer = document.querySelector('.spinnerContainer');
+
 let movieTitleValue = ''
+let addedMovie = null
+
+const toastLiveExample = document.getElementById('liveToast');
 
 searchButtonElement.addEventListener('click', async () => {
   movieTitleValue = searchInputElement.value
+
+  spinnerContainer.style.display = 'flex';
+
   const movie = await fetchData(movieTitleValue)
+
+  spinnerContainer.style.display = 'none';
+
+  if (!movie.Title) {
+    const toastBody = document.querySelector('.toast-body');
+    toastBody.textContent = 'По вашему запросу ничего не найдено!'; 
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+    toastBootstrap.show();
+    return; 
+}
+
+if (addedMovie && addedMovie.Title.toLowerCase() === movie.Title.toLowerCase()) {
+    return; 
+} 
+
+    const toastBody = document.querySelector('.toast-body');
+    toastBody.textContent = 'Успешно найдено';
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+    toastBootstrap.show(); 
 
   const cardElementTemplate = `
   <div class="card" style="width: 18rem">
@@ -41,6 +68,8 @@ searchButtonElement.addEventListener('click', async () => {
   searchResultsContainer.innerHTML = ''; 
   
   searchResultsContainer.insertAdjacentHTML('beforeend', cardElementTemplate)
+
+  addedMovie = movie
 
   const modalBody = document.querySelector('.modal-body');
 
@@ -79,3 +108,8 @@ searchButtonElement.addEventListener('click', async () => {
 
  modalBody.insertAdjacentHTML('beforeend', modalBodyTemplate)      
 })
+
+
+
+
+

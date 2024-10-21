@@ -21,3 +21,25 @@
     margin-top: 15px; 
   }
 }
+
+.spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  text-align: center; 
+}
+
+.spinnerContainer {
+  background-color: rgb(240, 240, 240);
+  opacity: 90%; 
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+} 
+
