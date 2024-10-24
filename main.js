@@ -52,14 +52,23 @@ if (addedMovie && addedMovie.Title.toLowerCase() === movie.Title.toLowerCase()) 
       <div class="card-body">
           <h5 class="card-title">${movie.Title}</h5>
           <p class="card-text">${movie.Plot}</p>
-          <a
-              href="#"
-              class="btn btn-primary"
-              data-bs-toggle="modal"
-              data-bs-target="#exampleModal"
-              >
-              Подробнее
-          </a>
+          <div class="d-flex flex-column gap-2">
+                <a
+                href="#"
+                class="btn btn-primary"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+                >
+                Подробнее
+                </a>
+                <a
+                    href="#"
+                    class="btn btn-secondary"
+                    id="add-fav-btn"
+                    >
+                    Добавить в избранное
+                </a>
+            </div>
       </div>
   </div>`
   
@@ -70,6 +79,29 @@ if (addedMovie && addedMovie.Title.toLowerCase() === movie.Title.toLowerCase()) 
   searchResultsContainer.insertAdjacentHTML('beforeend', cardElementTemplate)
 
   addedMovie = movie
+
+  const addFavButton = document.getElementById('add-fav-btn')
+    addFavButton.addEventListener('click', () => {
+        
+
+        if(localStorage.getItem('favMovies') === null) {
+            const favMoviesList = []
+            favMoviesList.push(movie)
+            localStorage.setItem('favMovies', JSON.stringify(favMoviesList))
+            return
+        }
+        
+
+        const favMoviesList = JSON.parse(localStorage.getItem('favMovies'))
+        favMoviesList.push(movie)
+        localStorage.setItem('favMovies', JSON.stringify(favMoviesList))
+
+
+        const toastBody = document.querySelector('.toast-body');
+        toastBody.textContent = 'Успешно добавлено в избранное';
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+        toastBootstrap.show(); 
+    }) 
 
   const modalBody = document.querySelector('.modal-body');
 
@@ -108,8 +140,5 @@ if (addedMovie && addedMovie.Title.toLowerCase() === movie.Title.toLowerCase()) 
 
  modalBody.insertAdjacentHTML('beforeend', modalBodyTemplate)      
 })
-
-
-
 
 
